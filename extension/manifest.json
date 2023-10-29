@@ -15,7 +15,8 @@
       "matches": [
         "https://*.bamboohr.com/employees/timesheet/*",
         "https://bamboohr.com/employees/timesheet/*"
-      ]
+      ],
+      "world": "MAIN"
     }
   ]
 }
