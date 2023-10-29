@@ -2,7 +2,7 @@ build:
 	rm -f extension/content.js
 	cd react-app && npm run build
 	cd ..
-	mv react-app/build/static/js/main*js extension/content.js
+	mv react-app/dist/assets/index*js extension/content.js
 
 install:
-	cd react-chrome-app && npm install
+	cd react-app && npm install

@@ -11,6 +11,7 @@
         "initial.js",
         "content.js"
       ],
+      "css": ["bamboobulk.css"],
       "matches": [
         "https://*.bamboohr.com/employees/timesheet/*",
         "https://bamboohr.com/employees/timesheet/*"
