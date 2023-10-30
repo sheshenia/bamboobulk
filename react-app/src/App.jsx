@@ -1,35 +1,95 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {useCallback, useEffect, useState} from 'react'
 import './App.css'
+import {
+    Box,
+    Container,
+    CssBaseline,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+    Stack,
+    TextField
+} from "@mui/material";
+import {ThemeProvider, createTheme} from '@mui/material/styles';
 
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import styled from "@emotion/styled";
+import {ClockEntry} from "./components/ClockEntry.jsx";
+import {getClockEntriesFromStorage, setClockEntriesToStorage} from "./utils/storage.js";
+
+
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+    spacing: 2,
+});
+
+const cleanupJql = (jql) => jql.replace(/\n+/g, "\n")
+
+const inputMode = Object.freeze({
+    JQL: "JQL", //Symbol("JQL"),
+    ID: "ID", //Symbol("ID"),
+})
+
+const PickersContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 8px 0 !important;
+    padding: 4px;
+`;
+
+const defaultClockEntries = [
+    {
+        "id": "1d3b0dd0",
+        "start": "09:00",
+        "end": "13:00",
+        "days": [1,2,3,4,5]
+    },
+    {
+        "id": "93917561",
+        "start": "14:00",
+        "end": "18:00",
+        "days": [1,2,3,4,5]
+    }
+]
 function App() {
-  const [count, setCount] = useState(0)
+    const [clockEntries, setClockEntries] = useState(defaultClockEntries);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(()=>{
+        getClockEntriesFromStorage().then(clockEntriesLS=>{
+            console.log(clockEntriesLS)
+            if(clockEntriesLS){
+                setClockEntries(clockEntriesLS)
+            }else {
+                setClockEntriesToStorage(clockEntries)
+            }
+        })
+    }, [])
+
+    return (
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline/>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <h2 style={{textAlign: 'center'}}>BambooBulk Clock Entries</h2>
+
+                {clockEntries.map(oneEntry => {
+                    return <ClockEntry
+                        clockEntry={oneEntry}
+                        key={oneEntry.id}
+                        updateEntry={(updatedValue)=>setClockEntriesToStorage(clockEntries.map(one => one.id === updatedValue.id ? updatedValue : one ))}
+                    />
+                })}
+
+            </LocalizationProvider>
+        </ThemeProvider>
+    )
 }
 
 export default App

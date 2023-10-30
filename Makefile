@@ -1,8 +1,8 @@
 build:
-	rm -f extension/content.js
+	rm -rf extension/assets
 	cd react-app && npm run build
 	cd ..
-	mv react-app/dist/assets/index*js extension/content.js
+	mv react-app/dist/* extension
 
 install:
 	cd react-app && npm install

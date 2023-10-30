@@ -1,18 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
 
-const timeSheetContainer = document.querySelector(".TimesheetSummaryContainer")
-const rootElement = document.createElement("div")
-rootElement.id = "react-bulk-app"
-rootElement.className = "TimesheetSummary"
+window.__DEBUG__ = true
 
-if (timeSheetContainer) {
-    ReactDOM.createRoot(timeSheetContainer).render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>,
-    )
-}
-
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)

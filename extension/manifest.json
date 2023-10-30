@@ -1,22 +1,21 @@
 {
   "name": "Bamboo Bulk",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
   "permissions": [
     "storage"
   ],
   "content_scripts": [
     {
-      "js": [
-        "initial.js",
-        "content.js"
-      ],
+      "js": ["content.js"],
       "css": ["bamboobulk.css"],
       "matches": [
         "https://*.bamboohr.com/employees/timesheet/*",
         "https://bamboohr.com/employees/timesheet/*"
-      ],
-      "world": "MAIN"
+      ]
     }
   ]
 }
