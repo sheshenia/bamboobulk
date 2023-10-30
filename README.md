@@ -19,7 +19,7 @@ Adds your working hours all at once for all days in your current BambooHR pay pe
 7) By default we have two time entries `09AM - 01PM` and `02PM - 06PM`. 
 Press button if you're Ok with default entries or follow the next steps to specify your custom time entries.
 
-### How do specify custom time entries? 
+### How to specify custom time entries? 
 
 1) Press on Bamboo Bulk extension
 ![](_7_press_bamboo_bulk_ext.png)
@@ -27,7 +27,7 @@ Press button if you're Ok with default entries or follow the next steps to speci
 ![](_8_select_custom_time_values.png)
 3) Go back to your BambooHR timesheet page, and press `Bulk Time Entries` button to start the process
 
-### Some usefull notes
+### Some usefully notes
 
 1) The time entries are written only on your working days Monday - Friday, Weekends are ignored.
 2) The time entries are not written to Holidays displayed in your timesheet.
