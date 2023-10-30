@@ -3,7 +3,7 @@
 ### How do I get set up?  
 
 1) Clone or Download repository. Ready to use Chrome extension in `extension` folder.
-![](_1_download_unpack.png)
+![](_1_download.png)
 2) In Chrome browser open `Manage Extensions`
 ![](_2_open_manage_extensions.png)
 3) Enable Developer mode
