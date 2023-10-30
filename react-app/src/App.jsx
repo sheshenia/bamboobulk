@@ -1,23 +1,11 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
 import {
-    Box,
-    Container,
     CssBaseline,
-    FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    Stack,
-    TextField
 } from "@mui/material";
 import {ThemeProvider, createTheme} from '@mui/material/styles';
-
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import styled from "@emotion/styled";
 import {ClockEntry} from "./components/ClockEntry.jsx";
 import {getClockEntriesFromStorage, setClockEntriesToStorage} from "./utils/storage.js";
@@ -30,20 +18,6 @@ const darkTheme = createTheme({
     },
     spacing: 2,
 });
-
-const cleanupJql = (jql) => jql.replace(/\n+/g, "\n")
-
-const inputMode = Object.freeze({
-    JQL: "JQL", //Symbol("JQL"),
-    ID: "ID", //Symbol("ID"),
-})
-
-const PickersContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    margin: 8px 0 !important;
-    padding: 4px;
-`;
 
 const defaultClockEntries = [
     {
@@ -59,6 +33,7 @@ const defaultClockEntries = [
         "days": [1,2,3,4,5]
     }
 ]
+
 function App() {
     const [clockEntries, setClockEntries] = useState(defaultClockEntries);
 
