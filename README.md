@@ -5,6 +5,7 @@ Adds your working hours all at once for all days in your current BambooHR pay pe
 ### How do I get set up?  
 
 1) Clone or Download repository. Ready to use Chrome extension in `extension` folder.
+Also you can dowload `extension.zip` in `Releases`.
 ![](assets/_1_1_download.png)
 ![](assets/_1_download.png)
 2) In Chrome browser open `Manage Extensions`
