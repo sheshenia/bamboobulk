@@ -68,11 +68,16 @@ function App() {
             if(clockEntriesLS){
                 setClockEntries(clockEntriesLS)
             }else {
-                setClockEntriesToStorage(clockEntries)
+                setClockEntriesToStorage(defaultClockEntries)
             }
         })
     }, [])
 
+    const onClockEntryUpdate = (updatedValue)=> {
+        const updatedEntries = clockEntries.map(one => one.id === updatedValue.id ? {...updatedValue} : one )
+        setClockEntriesToStorage(updatedEntries)
+        setClockEntries(updatedEntries)
+    }
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline/>
@@ -83,7 +88,7 @@ function App() {
                     return <ClockEntry
                         clockEntry={oneEntry}
                         key={oneEntry.id}
-                        updateEntry={(updatedValue)=>setClockEntriesToStorage(clockEntries.map(one => one.id === updatedValue.id ? updatedValue : one ))}
+                        updateEntry={onClockEntryUpdate}
                     />
                 })}
 

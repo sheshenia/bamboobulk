@@ -28,11 +28,8 @@ export const ClockEntry = ({clockEntry, updateEntry}) => {
     </Stack>)
 }
 
+const addZero = (i) => i < 10 ? "0" + i : i
+
 function formatHHMM(val) {
     return addZero(val.$H) + ":" + addZero(val.$m)
-}
-
-function addZero(i) {
-    if (i < 10) {i = "0" + i}
-    return i;
 }

@@ -38,14 +38,14 @@ const defaultEntries = [
     {
         ...defaultEntry,
         "trackingId": 1,
-        "start": "15:00",
-        "end": "19:00",
+        "start": "09:00",
+        "end": "13:00",
     },
     {
         ...defaultEntry,
         "trackingId": 2,
-        "start": "20:00",
-        "end": "24:00",
+        "start": "14:00",
+        "end": "18:00",
     }
 ]
 
@@ -99,6 +99,10 @@ const extractCsrfToken = () => {
     }
 }
 const doBulk = async () => {
+    const btn= document.getElementById("bamboobulk_btn")
+    btn.disabled = true
+    btn.textContent = "Processing..."
+
     const timesheetJsonEl = document.getElementById("js-timesheet-data")
     if (!timesheetJsonEl) return;
 
@@ -136,13 +140,20 @@ const doBulk = async () => {
         let clockEntries
         if(!!storageEntries?.length){
             clockEntries = storageEntries.map((entry,index) => {
+                let {start, end} = entry
+                if(start === "24:00") {
+                    start = "00:00"
+                }
+                if(end === "00:00") {
+                    end = "24:00"
+                }
                 return {
                     "id": null,
                     "trackingId": index+1,
                     "employeeId": employeeId,
                     "date": oneDay.date,
-                    "start": entry.start,
-                    "end": entry.end,
+                    start,
+                    end,
                     "note": "",
                     "projectId": null,
                     "taskId": null
@@ -153,13 +164,13 @@ const doBulk = async () => {
                 return {...entry, employeeId, date: oneDay.date}
             })
         }
-console.log(clockEntries)
+        console.log(clockEntries)
         await doOneDay(csrfToken, clockEntries)
         await delay(500)
 
         console.log(oneDay.date)
     }
-    //location.reload()
+    location.reload()
 }
 
 const timeSheetContainer = document.querySelector(".TimesheetSummaryContainer")
@@ -167,6 +178,7 @@ const timeSheetContainer = document.querySelector(".TimesheetSummaryContainer")
 if(timeSheetContainer){
     const bulkBtn = document.createElement("button")
     bulkBtn.type = "button"
+    bulkBtn.id = "bamboobulk_btn"
     bulkBtn.className = "bamboobulk_btn"
     bulkBtn.textContent = "Bulk Time Entries"
 
