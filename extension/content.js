@@ -125,8 +125,8 @@ const doBulk = async () => {
     console.log("storageEntries:", storageEntries)
 
     for (const oneDay of Object.values(dailyDetails)) {
-        //skipping Holidays
-        if(!oneDay.date || !!oneDay?.holidays?.length) continue;
+        //skipping Holidays and vacations
+        if(!oneDay.date || !!oneDay?.holidays?.length || !!oneDay?.timeOff?.length) continue;
 
         const oneDayDate = new Date(oneDay.date)
         const oneDayWeekNum = oneDayDate.getDay()

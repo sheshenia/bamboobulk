@@ -6,11 +6,8 @@ import {
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import styled from "@emotion/styled";
 import {ClockEntry} from "./components/ClockEntry.jsx";
 import {getClockEntriesFromStorage, setClockEntriesToStorage} from "./utils/storage.js";
-
-
 
 const darkTheme = createTheme({
     palette: {
