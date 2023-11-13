@@ -1,6 +1,7 @@
 # BambooBulk Clock Entries
 
-Adds your working hours all at once for all days in your current BambooHR pay period.
+Adds your working hours all at once for all days in your current BambooHR pay period. Quick add/delete clock entries for one day.
+![](assets/functionality.gif)
 
 ### How do I get set up?  
 
@@ -16,8 +17,11 @@ Also you can dowload `extension.zip` in `Releases`.
 ![](assets/_4_load_unpacked.png)
 5) You should see `Bamboo Bulk` extension installed. Enable it if it is not enabled.
 ![](assets/_5_bambooBulk_installed.png)
-6) Open your BambooHR timesheet page, you should see the Button `Bulk Time Entries` injected by extension.
-![](assets/_6_bamboo_timesheet.png)
+6) Open your BambooHR timesheet page, you should see additional elements injected by extension:  
+- the Button `Bulk Time Entries` - populates all days of payed period with time entries all at once
+- delete ❌ icon - deletes clock entries for one day
+- add 🕔 icon - adds clock entries for one day
+  ![](assets/_6_bamboo_bulk_and_one_day_btns.png)
 7) By default we have two time entries `09AM - 01PM` and `02PM - 06PM`. 
 Press button if you're Ok with default entries or follow the next steps to specify your custom time entries.
 
