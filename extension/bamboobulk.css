@@ -19,3 +19,12 @@
     color: #fff;
     cursor:pointer;
 }
+
+.one_day_del_btn, .one_day_add_btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    opacity: 0.4;
+    z-index: 99;
+}
