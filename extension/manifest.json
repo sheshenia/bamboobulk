@@ -1,6 +1,6 @@
 {
   "name": "Bamboo Bulk",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html"
@@ -11,7 +11,7 @@
   "content_scripts": [
     {
       "js": ["content.js"],
-      "css": ["bamboobulk.css"],
+      "css": ["content-style.css"],
       "matches": [
         "https://*.bamboohr.com/employees/timesheet/*",
         "https://bamboohr.com/employees/timesheet/*"
