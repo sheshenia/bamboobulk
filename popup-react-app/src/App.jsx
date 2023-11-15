@@ -1,13 +1,14 @@
 import {useEffect, useState} from 'react'
 import './App.css'
 import {
-    CssBaseline,
+    CssBaseline, Divider, Fab, IconButton, Stack,
 } from "@mui/material";
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {ClockEntry} from "./components/ClockEntry.jsx";
 import {getClockEntriesFromStorage, setClockEntriesToStorage} from "./utils/storage.js";
+import AddIcon from '@mui/icons-material/Add';
 
 const darkTheme = createTheme({
     palette: {
@@ -54,16 +55,30 @@ function App() {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline/>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <h2 style={{textAlign: 'center'}}>BambooBulk Clock Entries</h2>
+                <Stack spacing={12}>
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={8}
+                    >
+                        <h2>BambooBulk Clock Entries</h2>
+                        <IconButton size="small" color="primary" aria-label="add" onClick={()=>console.log("clicked")}>
+                            <AddIcon />
+                        </IconButton>
+                    </Stack>
+                    {/*<h2 style={{textAlign: 'center'}}>BambooBulk Clock Entries</h2>*/}
 
-                {clockEntries.map(oneEntry => {
-                    return <ClockEntry
-                        clockEntry={oneEntry}
-                        key={oneEntry.id}
-                        updateEntry={onClockEntryUpdate}
-                    />
-                })}
-
+                    <Stack spacing={8} divider={<Divider orientation="horizontal" flexItem />}>
+                        {clockEntries.map(oneEntry => {
+                            return <ClockEntry
+                                clockEntry={oneEntry}
+                                key={oneEntry.id}
+                                updateEntry={onClockEntryUpdate}
+                            />
+                        })}
+                    </Stack>
+                </Stack>
             </LocalizationProvider>
         </ThemeProvider>
     )
