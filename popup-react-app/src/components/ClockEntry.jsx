@@ -13,7 +13,7 @@ const PickersContainer = styled.div`
 
 const DayBtn = ({dayNum, isDaySelected, updateDay}) => {
     return (<Button
-        onClick={updateDay(dayNum, isDaySelected ? "del" : "add")}
+        onClick={() => updateDay(dayNum, isDaySelected ? "del" : "add")}
         variant={isDaySelected ? "contained" : "outlined"}
     >
         {dayjs().day(dayNum).format("ddd")}
@@ -22,10 +22,15 @@ const DayBtn = ({dayNum, isDaySelected, updateDay}) => {
 
 export const ClockEntry = ({clockEntry, updateEntry}) => {
     const isDayInEntry = (dayNum) => clockEntry.days.includes(dayNum)
-    const daySelected = (dayNum) => isDayInEntry(dayNum) ? "contained" : "outlined"
 
     const updateDay = (dayNum, action) => {
         console.log(dayNum, action)
+        if(action==="del"){
+            updateEntry({...clockEntry, days: clockEntry.days.filter(d => d !== dayNum)})
+        }
+        if(action==="add"){
+            updateEntry({...clockEntry, days: [...clockEntry.days, dayNum]})
+        }
     }
 
     return (<Stack style={{marginLeft: "24px"}} spacing={4}>
@@ -47,23 +52,14 @@ export const ClockEntry = ({clockEntry, updateEntry}) => {
         </Stack>
         <Stack direction="row" justifyContent="flex-start" spacing={20}>
             <ButtonGroup variant="outlined" aria-label="Weekdays">
-                {[1,2,3,4,5].map((dayNum) => <DayBtn key={dayNum} dayNum={dayNum} isDaySelected={daySelected(dayNum)} updateDay={updateDay}/>)}
+                {[1, 2, 3, 4, 5].map((dayNum) =>
+                    <DayBtn key={dayNum} dayNum={dayNum} isDaySelected={isDayInEntry(dayNum)} updateDay={updateDay}/>)
+                }
             </ButtonGroup>
             <ButtonGroup variant="outlined" aria-label="Weekends">
-                {[6,0].map((dayNum) => <DayBtn key={dayNum} dayNum={dayNum} isDaySelected={daySelected(dayNum)} updateDay={updateDay}/>)}
-            </ButtonGroup>
-        </Stack>
-        <Stack direction="row" justifyContent="flex-start" spacing={20}>
-            <ButtonGroup variant="outlined" aria-label="Weekdays">
-                <Button variant={daySelected(1)}>Mon</Button>
-                <Button variant={daySelected(2)}>Tue</Button>
-                <Button variant={daySelected(3)}>Wed</Button>
-                <Button variant={daySelected(4)}>Thu</Button>
-                <Button variant={daySelected(5)}>Fri</Button>
-            </ButtonGroup>
-            <ButtonGroup variant="outlined" aria-label="Weekends">
-                <Button variant={daySelected(6)}>Sat</Button>
-                <Button variant={daySelected(0)}>Sun</Button>
+                {[6, 0].map((dayNum) =>
+                    <DayBtn key={dayNum} dayNum={dayNum} isDaySelected={isDayInEntry(dayNum)} updateDay={updateDay}/>)
+                }
             </ButtonGroup>
         </Stack>
     </Stack>)
