@@ -1,26 +1,27 @@
 /*global chrome*/
 import {defaultEntries} from "./defaultEntries.js";
 
-const clockEntriesStorageKey = "clockEntries"
-export const getClockEntriesFromStorage = async () => {
-    const result = await chrome.storage.local.get(clockEntriesStorageKey)
-    if (window.__DEBUG__) {
-        console.log("Value currently is: ", result?.[clockEntriesStorageKey])
-    }
-    if (!result?.[clockEntriesStorageKey]) {
-        if (window.__DEBUG__) {
-            console.log("Not founded clockEntries in local extension storage")
-        }
-        return null
-    }
-    if (window.__DEBUG__) {
-        console.log("Founded in storage:", result[clockEntriesStorageKey])
-    }
+// that's what we have from storage
+/*{
+    "id": "1d3b0dd0",
+    "start": "09:00",
+    "end": "13:00",
+    "days": [1,2,3,4,5]
+},*/
 
-    return result[clockEntriesStorageKey]
+export const populateClockEntriesFromDefault = (dateData, employeeId) => {
+    return defaultEntries.map(entry => {
+        return {...entry, employeeId, date: dateData}
+    })
 }
-export const populateOneDayClockEntriesWithData = (entries, dateData, employeeId) => {
-    return entries.map((entry, index) => {
+
+export const populateOneDayClockEntriesWithData = (
+    entries,
+    dateData,
+    employeeId,
+    dateDayOfWeekNum = new Date(dateData).getDay()
+) => {
+    const dayEntries = entries.filter((entry) => entry.days?.includes(dateDayOfWeekNum)).map((entry, index) => {
         let {start, end} = entry
         if (start === "24:00") {
             start = "00:00"
@@ -40,9 +41,5 @@ export const populateOneDayClockEntriesWithData = (entries, dateData, employeeId
             "taskId": null
         }
     })
-}
-export const populateClockEntriesFromDefault = (dateData, employeeId) => {
-    return defaultEntries.map(entry => {
-        return {...entry, employeeId, date: dateData}
-    })
+    return dayEntries.length > 0 ? dayEntries : populateOneDayClockEntriesWithData(dateData, employeeId)
 }

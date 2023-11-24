@@ -1,7 +1,8 @@
 # BambooBulk Clock Entries
 
 Adds your working hours all at once for all days in your current BambooHR pay period. Quick add/delete clock entries for one day.
-![](assets/functionality.gif)
+![](assets/social_preview.png)
+![](assets/functionality2.gif)
 
 ### How do I get set up?  
 
@@ -30,19 +31,14 @@ Press button if you're Ok with default entries or follow the next steps to speci
 1) Press on Bamboo Bulk extension
 ![](assets/_7_press_bamboo_bulk_ext.png)
 2) Select you custom time values
-![](assets/_8_select_custom_time_values.png)
+![](assets/social_preview.png)
 3) Go back to your BambooHR timesheet page, and press `Bulk Time Entries` button to start the process
 
-### Bulk Time Entries skips (time entries not posted):
+### Bulk Time Entries skips the days with already written time entries.
 
-1) Weekends - Saturday and Sunday, the time entries are written only on your working days Monday - Friday.
-2) Official Holidays displayed in your timesheet.
-3) Vacation days.
-4) The days with already written time entries.
+### By default, it skips, but can be overridden in configs:
+1) `Skip Weekends` - Saturday and Sunday, the time entries are written only on your working days Monday - Friday.
+2) `Skip Holidays` - Official Holidays displayed in your timesheet.
+3) `Skip Time Offs` - Vacation days and other time offs.
 
 > Only your active `Pay period timesheet` is affected.
-
-### TODO
-
-1) Ability to add and delete custom time entries
-2) Ability to specify days of week for custom time entries
