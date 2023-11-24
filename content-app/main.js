@@ -12,8 +12,8 @@ if(timeSheetContainer){
     parseTimeSheetAndPopulateData()
 
     if(isTimesheetParsed()) {
-        timeSheetContainer.prepend(bulkContainer())
-        populateEachDay()
+        timeSheetContainer.prepend(bulkContainer()) // bulk button and actions logic
+        populateEachDay() // each day "del"/"add" buttons and logic
     }
 }
 

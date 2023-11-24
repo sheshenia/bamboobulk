@@ -1,37 +1,53 @@
 import {csrfToken, dailyDetails, employeeId, isTimesheetParsed, todayDayNum} from "./timesheetData.js";
 import {
-    getClockEntriesFromStorage,
     populateClockEntriesFromDefault,
     populateOneDayClockEntriesWithData
 } from "./clockEntries.js";
 import {doOneDay} from "./api.js";
 import {delay} from "./utils.js";
+import {getClockEntriesFromStorage, getConfigsFromStorage} from "../common/storage";
+import {defaultConfigs} from "../common/defaults.js";
 
 const doBulk = async () => {
     if (!isTimesheetParsed()) return;
 
     const btn = document.getElementById("bamboobulk_btn")
-    btn.disabled = true
-    btn.textContent = "Processing..."
+    btn.replaceWith(processingDiv())
+    const processedDayEl = document.getElementById("processed_day")
 
     const storageEntries = await getClockEntriesFromStorage()
     console.log("storageEntries:", storageEntries)
 
+    let configs = await getConfigsFromStorage()
+    if (!configs) {
+        configs = defaultConfigs
+    }
+
     for (const oneDay of Object.values(dailyDetails)) {
-        //skipping Holidays and vacations
-        if (!oneDay.date || !!oneDay?.holidays?.length || !!oneDay?.timeOff?.length) continue;
+        if (!oneDay.date) continue;
+
+        processedDayEl.textContent = oneDay.date
+
+        //skipping Holidays if in configs
+        if (configs.skipHolidays && !!oneDay?.holidays?.length) continue;
+
+        //skipping Time Offs if in configs
+        if (configs.skipTimeOffs && !!oneDay?.timeOff?.length) continue;
 
         const oneDayDate = new Date(oneDay.date)
         const oneDayWeekNum = oneDayDate.getDay()
 
-        //only days below or equal today, except weekends
-        if (oneDayDate.getDate() > todayDayNum || oneDayWeekNum === 6 || oneDayWeekNum === 0) continue;
+        //skipping Weekends if in configs
+        if (configs.skipWeekends && (oneDayWeekNum === 6 || oneDayWeekNum === 0)) continue;
+
+        //only days below or equal today
+        if (oneDayDate.getDate() > todayDayNum) continue;
 
         //skip days that already have clockEntries
         if (!!oneDay?.clockEntries?.length) continue;
 
         const clockEntries = !!storageEntries?.length
-            ? populateOneDayClockEntriesWithData(storageEntries, oneDay.date, employeeId)
+            ? populateOneDayClockEntriesWithData(storageEntries, oneDay.date, employeeId, oneDayWeekNum)
             : populateClockEntriesFromDefault(oneDay.date, employeeId)
 
         console.log(clockEntries)
@@ -41,6 +57,15 @@ const doBulk = async () => {
         console.log(oneDay.date)
     }
     location.reload()
+}
+
+const processingDiv = () => {
+    /*const loader = document.createElement("div")
+    loader.className = "loader"*/
+    const div = document.createElement("div")
+    div.className = "processing_div"
+    div.innerHTML = `<div class="loader"></div>Processing<div id="processed_day"></div>`
+    return div
 }
 
 const bulkButton = () => {

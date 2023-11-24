@@ -1,22 +1,21 @@
-const defaultEntry = {
-    "id": null,
-    "note": "",
-    "projectId": null,
-    "taskId": null
-}
-
 export const defaultEntries = [
     {
-        ...defaultEntry,
         "trackingId": 1,
         "start": "09:00",
         "end": "13:00",
+        "id": null,
+        "note": "",
+        "projectId": null,
+        "taskId": null
     },
     {
-        ...defaultEntry,
         "trackingId": 2,
         "start": "14:00",
         "end": "18:00",
+        "id": null,
+        "note": "",
+        "projectId": null,
+        "taskId": null
     }
 ]
 

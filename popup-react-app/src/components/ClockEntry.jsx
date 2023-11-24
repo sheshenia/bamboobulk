@@ -20,7 +20,7 @@ const DayBtn = ({dayNum, isDaySelected, updateDay}) => {
     </Button>)
 }
 
-export const ClockEntry = ({clockEntry, updateEntry}) => {
+export const ClockEntry = ({clockEntry, updateEntry, delEntry}) => {
     const isDayInEntry = (dayNum) => clockEntry.days.includes(dayNum)
 
     const updateDay = (dayNum, action) => {
@@ -46,7 +46,7 @@ export const ClockEntry = ({clockEntry, updateEntry}) => {
                 value={dayjs('2022-04-17T' + clockEntry.end)}
                 onChange={(newValue) => updateEntry({...clockEntry, end: formatHHMM(newValue)})}
             />
-            <IconButton color="primary" aria-label="delete clock entry">
+            <IconButton color="primary" aria-label="delete clock entry" onClick={()=>delEntry(clockEntry.id)}>
                 <DeleteIcon />
             </IconButton>
         </Stack>

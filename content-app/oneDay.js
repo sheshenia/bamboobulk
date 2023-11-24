@@ -1,6 +1,5 @@
 /*One Day buttons - block start*/
 import {
-    getClockEntriesFromStorage,
     populateClockEntriesFromDefault,
     populateOneDayClockEntriesWithData
 } from "./clockEntries.js";
@@ -14,6 +13,7 @@ import {
 } from "./timesheetData.js";
 import {deleteOneDayEntries, doOneDay} from "./api.js";
 import {addZero} from "./utils.js";
+import {getClockEntriesFromStorage} from "../common/storage";
 
 const delBtn = (dateData) => {
     const delBtn = document.createElement("div")
