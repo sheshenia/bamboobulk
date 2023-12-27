@@ -56,22 +56,28 @@ function App() {
         })
     }, [])
 
-    const onClockEntryUpdate = (updatedValue)=> {
-        const updatedEntries = clockEntries.map(one => one.id === updatedValue.id ? {...updatedValue} : one )
-        setClockEntriesToStorage(updatedEntries)
-        setClockEntries(updatedEntries)
+    const onClockEntryUpdate = (updatedValue) => {
+        setClockEntries((oldClockEntries) => {
+            const updatedEntries = oldClockEntries.map( oneEntry => oneEntry.id === updatedValue.id ? updatedValue : oneEntry)
+            setClockEntriesToStorage(updatedEntries)
+            return updatedEntries
+        })
     }
 
     const onClockEntryDelete = (clockEntryId) => {
-        const updatedEntries = clockEntries.filter(one => one.id !== clockEntryId )
-        setClockEntriesToStorage(updatedEntries)
-        setClockEntries(updatedEntries)
+        setClockEntries((oldClockEntries) => {
+            const updatedEntries = oldClockEntries.filter( oneEntry => oneEntry.id !== clockEntryId)
+            setClockEntriesToStorage(updatedEntries)
+            return updatedEntries
+        })
     }
 
     const addNewEntry = () => {
-        const updatedEntries = [...clockEntries, newClockEntry()]
-        setClockEntriesToStorage(updatedEntries)
-        setClockEntries(updatedEntries)
+        setClockEntries((oldClockEntries) => {
+            const updatedEntries = [...oldClockEntries, newClockEntry()]
+            setClockEntriesToStorage(updatedEntries)
+            return updatedEntries
+        })
     }
 
     return (
