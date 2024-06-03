@@ -7,13 +7,15 @@ import {
     csrfToken,
     dailyDetails,
     employeeId,
+    isCurrentEditable,
+    isPreviousEditable,
     isDateContainsTimeEntries,
-    isDateInDailyDetails,
     isDateTodayOrPast
 } from "./timesheetData.js";
 import {deleteOneDayEntries, doOneDay} from "./api.js";
-import {addZero} from "./utils.js";
-import {getClockEntriesFromStorage} from "../common/storage";
+import {addZero, skippingDay} from "./utils.js";
+import {getClockEntriesFromStorage, getConfigsFromStorage} from "../common/storage";
+import {defaultConfigs} from "../common/defaults.js";
 
 const delBtn = (dateData) => {
     const delBtn = document.createElement("div")
@@ -34,11 +36,14 @@ const delBtn = (dateData) => {
 }
 
 const addOneDayTimeEntries = async (dateData) => {
-    console.log("Add:", dateData)
     const storageEntries = await getClockEntriesFromStorage()
-    const clockEntries = !!storageEntries?.length
-        ? populateOneDayClockEntriesWithData(storageEntries, dateData, employeeId)
-        : populateClockEntriesFromDefault(dateData, employeeId)
+    let clockEntries = []
+    if(!!storageEntries?.length){
+        clockEntries = populateOneDayClockEntriesWithData(storageEntries, dateData, employeeId)
+    }
+    if(!clockEntries.length){
+        clockEntries = populateClockEntriesFromDefault(dateData, employeeId)
+    }
     await doOneDay(csrfToken, clockEntries)
     location.reload()
 }
@@ -54,7 +59,14 @@ const addBtn = (dateData) => {
     return addBtn
 }
 
-export const populateEachDay = () => {
+export const populateEachDay = async () => {
+    if (!isCurrentEditable() && !isPreviousEditable()) return;
+
+    let configs = await getConfigsFromStorage()
+    if (!configs) {
+        configs = defaultConfigs
+    }
+
     document.querySelectorAll(".TimesheetSlat").forEach(el => {
         const dayDate = el.querySelector(".TimesheetSlat__dayDate")
         if(!dayDate) return;
@@ -69,10 +81,13 @@ export const populateEachDay = () => {
             const dateTimeData = new Date(dayDate.textContent + " " + year)
             const dateData = `${year}-${addZero(dateTimeData.getMonth()+1)}-${addZero(dateTimeData.getDate())}`
 
-            if(isDateInDailyDetails(dateData) && isDateTodayOrPast(dateData)) {
-                console.log("adding delBtn to:", dayDate.textContent, "dateData:", dateData)
-                el.appendChild(isDateContainsTimeEntries(dateData) ? delBtn(dateData) : addBtn(dateData))
-            }
+            const isEditable = isPreviousEditable() || isDateTodayOrPast(dateData)
+            if (!isEditable) return;
+
+            const oneDay = dailyDetails[dateData]
+            if(!oneDay || skippingDay(configs, oneDay)) return;
+
+            el.appendChild(isDateContainsTimeEntries(dateData) ? delBtn(dateData) : addBtn(dateData))
         }catch (e) {
             console.log(e)
         }

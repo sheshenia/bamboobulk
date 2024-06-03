@@ -3,12 +3,20 @@ export let dailyDetails
 export let employeeId
 export let csrfToken
 export let todayDayNum
+export let isEditable
+let pageTimesheet
+let timesheetStatus
+/*const timesheetStatuses = [
+    "future",
+    "pending",
+    "approved"
+]*/
 
 export const isTimesheetParsed = () => dailyDetails && employeeId && csrfToken
-export const isDateInDailyDetails = (dateData) => dailyDetails.hasOwnProperty(dateData)
 export const isDateContainsTimeEntries = (dateData) => !!dailyDetails[dateData]?.clockEntries?.length
 export const isDateTodayOrPast = (dateData) => new Date(dateData).getDate() <= todayDayNum
-const isDateToday = (dateData) => new Date(dateData).getDate() === todayDayNum
+export const isCurrentEditable = () => timesheetStatus === "future" && isEditable
+export const isPreviousEditable = () => timesheetStatus === "pending" && isEditable
 
 const extractCsrfToken = () => {
     const tokenRegexp = /CSRF_TOKEN\s*=\s*"([^"]+)"/im
@@ -28,7 +36,10 @@ export const parseTimeSheetAndPopulateData = () => {
     const timesheetJson = JSON.parse(timesheetJsonEl.textContent)
     console.log(timesheetJson)
 
-    dailyDetails = timesheetJson?.timesheet?.dailyDetails
+    pageTimesheet = timesheetJson?.timesheet
+    timesheetStatus = pageTimesheet?.status
+    isEditable = !!pageTimesheet?.canEdit
+    dailyDetails = pageTimesheet?.dailyDetails
     employeeId = timesheetJson?.employeeId
     csrfToken = extractCsrfToken() //window.CSRF_TOKEN
     console.log("CSRF_TOKEN: ", csrfToken)
