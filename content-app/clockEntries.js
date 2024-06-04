@@ -41,5 +41,5 @@ export const populateOneDayClockEntriesWithData = (
             "taskId": null
         }
     })
-    return dayEntries.length > 0 ? dayEntries : populateOneDayClockEntriesWithData(dateData, employeeId)
+    return dayEntries
 }

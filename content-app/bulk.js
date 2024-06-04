@@ -1,15 +1,24 @@
-import {csrfToken, dailyDetails, employeeId, isTimesheetParsed, todayDayNum} from "./timesheetData.js";
+import {
+    csrfToken,
+    dailyDetails,
+    employeeId,
+    isCurrentEditable, isDateTodayOrPast, isPreviousEditable,
+    isTimesheetParsed,
+} from "./timesheetData.js";
 import {
     populateClockEntriesFromDefault,
     populateOneDayClockEntriesWithData
 } from "./clockEntries.js";
 import {doOneDay} from "./api.js";
-import {delay} from "./utils.js";
+import {delay, skippingDay} from "./utils.js";
 import {getClockEntriesFromStorage, getConfigsFromStorage} from "../common/storage";
 import {defaultConfigs} from "../common/defaults.js";
 
 const doBulk = async () => {
     if (!isTimesheetParsed()) return;
+
+    //allow only current or previous pending editable timesheets
+    if (!isCurrentEditable() && !isPreviousEditable()) return;
 
     const btn = document.getElementById("bamboobulk_btn")
     btn.replaceWith(processingDiv())
@@ -28,28 +37,20 @@ const doBulk = async () => {
 
         processedDayEl.textContent = oneDay.date
 
-        //skipping Holidays if in configs
-        if (configs.skipHolidays && !!oneDay?.holidays?.length) continue;
+        //skipping Holidays, Time Offs, Weekends if in configs
+        if (skippingDay(configs, oneDay)) continue;
 
-        //skipping Time Offs if in configs
-        if (configs.skipTimeOffs && !!oneDay?.timeOff?.length) continue;
-
-        const oneDayDate = new Date(oneDay.date)
-        const oneDayWeekNum = oneDayDate.getDay()
-
-        //skipping Weekends if in configs
-        if (configs.skipWeekends && (oneDayWeekNum === 6 || oneDayWeekNum === 0)) continue;
-
-        //only days below or equal today
-        if (oneDayDate.getDate() > todayDayNum) continue;
+        //only days below or equal today for current timesheet
+        if (isCurrentEditable() && !isDateTodayOrPast(oneDay.date)) continue;
 
         //skip days that already have clockEntries
         if (!!oneDay?.clockEntries?.length) continue;
 
         const clockEntries = !!storageEntries?.length
-            ? populateOneDayClockEntriesWithData(storageEntries, oneDay.date, employeeId, oneDayWeekNum)
+            ? populateOneDayClockEntriesWithData(storageEntries, oneDay.date, employeeId)
             : populateClockEntriesFromDefault(oneDay.date, employeeId)
 
+        if (!clockEntries.length) continue;
         console.log(clockEntries)
         await doOneDay(csrfToken, clockEntries)
         await delay(500)
