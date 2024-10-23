@@ -61,8 +61,6 @@ const doBulk = async () => {
 }
 
 const processingDiv = () => {
-    /*const loader = document.createElement("div")
-    loader.className = "loader"*/
     const div = document.createElement("div")
     div.className = "processing_div"
     div.innerHTML = `<div class="loader"></div>Processing<div id="processed_day"></div>`

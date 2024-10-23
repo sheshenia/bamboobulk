@@ -1,7 +1,7 @@
 /*global chrome*/
 import {defaultEntries} from "./defaultEntries.js";
 
-// that's what we have from storage
+// Clock entry object signature from extension storage
 /*{
     "id": "1d3b0dd0",
     "start": "09:00",

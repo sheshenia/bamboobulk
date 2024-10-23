@@ -7,13 +7,15 @@ import {
 import {populateEachDay} from "./oneDay.js";
 import {bulkContainer} from "./bulk.js";
 
-const timeSheetContainer = document.querySelector(".TimesheetSummaryContainer")
+//TODO: refactor the logic not to be dependent on site design changes, but only on actual raw data
+const timeSheetEntriesContainer = document.querySelector(".TimesheetEntries")
 
-if(timeSheetContainer){
+if(timeSheetEntriesContainer){
     parseTimeSheetAndPopulateData()
 
     if(isTimesheetParsed() && isEditable) {
-        timeSheetContainer.prepend(bulkContainer()) // bulk button and actions logic
+        const clockInAndSummariesContainer = timeSheetEntriesContainer.nextSibling?.firstChild ?? timeSheetEntriesContainer.nextSibling ?? timeSheetEntriesContainer
+        clockInAndSummariesContainer.prepend(bulkContainer()) // bulk button and actions logic
         populateEachDay() // each day "del"/"add" buttons and logic
     }
 }

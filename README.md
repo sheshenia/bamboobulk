@@ -53,7 +53,7 @@ Also you can dowload `extension.zip` in `Releases`.
 - the Button `Bulk Time Entries` - populates all days of payed period with time entries all at once
 - delete ❌ icon - deletes clock entries for one day
 - add 🕔 icon - adds clock entries for one day  
-  ![](assets/_6_bamboo_bulk_and_one_day_btns.png)
+  ![](assets/_6_1_bamboo_bulk_and_one_day_btns.png)
 7) By default we have two time entries `09AM - 01PM` and `02PM - 06PM`. 
 Press `Bulk Time Entries` button to start.
 
