@@ -1,7 +1,7 @@
 # BambooBulk Clock Entries
 
 Adds your working hours all at once for all days in your current BambooHR pay period/timesheet or previous pending timesheet. Quick add/delete clock entries for one day.  
-Active extension in `chrome web store` [Bamboo Bulk v1.4.0](https://chromewebstore.google.com/detail/bamboo-bulk/eamnacflhenaamlhfammimplkgjhfdci)
+Active extension in `chrome web store` [Bamboo Bulk v1.5.0](https://chromewebstore.google.com/detail/bamboo-bulk/eamnacflhenaamlhfammimplkgjhfdci)
 <!-- TOC -->
 * Installation and get started
     * [Install extension from Chrome web store](#install-from-chrome-web-store)
