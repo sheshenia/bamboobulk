@@ -67,7 +67,8 @@ export const populateEachDay = async () => {
         configs = defaultConfigs
     }
 
-    document.querySelectorAll(".TimesheetSlat").forEach(el => {
+    document.querySelectorAll(".TimesheetSlat:not([data-bamboobulk])").forEach(el => {
+        el.dataset.bamboobulk = "1"
         const dayDate = el.querySelector(".TimesheetSlat__dayDate")
         if(!dayDate) return;
 
